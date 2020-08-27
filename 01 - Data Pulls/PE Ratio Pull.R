@@ -3,7 +3,8 @@ library(tidyverse)
 
 
 # Select Metrics of Interest -----------------------------------------------
-  metricList  <- yahooQF(c("P/E Ratio"))
+  metricList  <- yahooQF(c("EPS",
+                           "Volume"))
   
 
 # Get Tickers List ---------------------------------------------------------
@@ -33,5 +34,5 @@ library(tidyverse)
     
     
 # Write Excel File
-    write_excel_csv(df, path = "01 - Data Pulls/Cons_Disc_Upload_File")
+    write_excel_csv(df, path = "01 - Data Pulls/Cons_Disc_Upload_File.csv")
       
