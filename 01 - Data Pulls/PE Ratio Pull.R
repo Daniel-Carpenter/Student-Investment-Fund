@@ -1,13 +1,37 @@
 library(quantmod)
 library(tidyverse)
 
-metricList  <- yahooQF(c("P/E Ratio"))
 
-# Pull in Tickers List
-  symbolList     <- read.csv("01 - Data Pulls/ConsDiscTickers.csv") %>%
-    select(Ticker)
-names(symbolList)
+# Select Metrics of Interest -----------------------------------------------
+  metricList  <- yahooQF(c("P/E Ratio"))
+  
 
-df <- getQuote(Symbols = symbolList,
-               src     = "yahoo",
-               what    = metricList)
+# Get Tickers List ---------------------------------------------------------
+  
+  # Pull in Tickers List
+    tickerList <- read.csv("01 - Data Pulls/ConsDiscTickers.csv") %>%
+      select(Ticker)
+    
+  # Convert tickerList to `List`
+    tickerList <- tickerList$Ticker
+
+
+# Pull in Data from Yahoo Finance ------------------------------------------
+    
+  # Data Pull
+    df <- getQuote(Symbols = tickerList,
+                   src     = "yahoo",
+                   what    = metricList) 
+      
+  # Add Stock Names
+    df$ticker   = rownames(df)
+    
+  # Reorder Cols
+    df <- df %>% 
+      select(ticker,
+             `P/E Ratio`)
+    
+    
+# Write Excel File
+    write_excel_csv(df, path = "01 - Data Pulls/Cons_Disc_Upload_File")
+      
