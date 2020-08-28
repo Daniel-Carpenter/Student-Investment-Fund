@@ -3,8 +3,9 @@ library(tidyverse)
 
 
 # Select Metrics of Interest -----------------------------------------------
-  metricList  <- yahooQF(c("EPS",
-                           "Volume"))
+  metricList  <- yahooQF(c("Earnings/Share",
+                           "Previous Close",
+                           "P/E Ratio"))
   
 
 # Get Tickers List ---------------------------------------------------------
@@ -30,7 +31,10 @@ library(tidyverse)
   # Reorder Cols
     df <- df %>% 
       select(ticker,
-             `P/E Ratio`)
+             "Earnings/Share",
+             "P. Close",
+             old_PE_Ratio = "P/E Ratio") %>%
+      mutate(calculated_PE_Ratio = `P. Close` / `Earnings/Share`)
     
     
 # Write Excel File
