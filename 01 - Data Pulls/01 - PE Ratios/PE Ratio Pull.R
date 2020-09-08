@@ -46,16 +46,20 @@ library(tidyverse)
         mutate(calc_PE         = `P. Close` / `Earnings/Share`) %>%
       
       # Calculated PE Ratio with FORWARD EPS
-        mutate(calc_PE_Forward = `P. Close` / `EPS Forward`) %>%
+        mutate(calc_PE_Forward = `P. Close` / `EPS Forward`)
+      
+    
+    df.output <- df %>%
       
     # Select only Relevent Cols
-      select(tradeTime = `Trade Time`,
-             old_PE_Ratio,
-             calc_PE,
-             calc_PE_Forward)
+      select(`Trade Time`  = `Trade Time`,
+             `Ticker`      = ticker,
+             `Pre-Calculated P/E Ratio`      = old_PE_Ratio,
+             `Manually Caculated P/E Ratio`  = calc_PE,
+             `Forward P/E Ratio`             = calc_PE_Forward)
     
 # Write Excel File ---------------------------------------------------------
-    #write_excel_csv(df, path = "01 - Data Pulls/Cons_Disc_Upload_File.csv")
+    write_excel_csv(df.output, path = "01 - Data Pulls/02 - Foward PE Ratios - Cons. Disc..csv")
     
     
 # Set Theme ----------------------------------------------------------------
