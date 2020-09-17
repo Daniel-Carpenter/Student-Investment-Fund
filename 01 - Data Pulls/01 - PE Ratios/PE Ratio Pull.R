@@ -12,7 +12,9 @@ library(tidyverse)
   metricList  <- yahooQF(c("Earnings/Share",
                            "EPS Forward",
                            "Previous Close",
-                           "P/E Ratio"))
+                           "P/E Ratio",
+                           "Book Value",
+                           "Market Capitalization"))
   
 
 # Get Tickers List -----------------------------------------------------------
@@ -46,7 +48,10 @@ library(tidyverse)
         mutate(calc_PE         = `P. Close` / `Earnings/Share`) %>%
       
       # Calculated PE Ratio with FORWARD EPS
-        mutate(calc_PE_Forward = `P. Close` / `EPS Forward`)
+        mutate(calc_PE_Forward = `P. Close` / `EPS Forward`) %>%
+      
+      # Calculate Book to Market
+        mutate(bookToMarket = `Book Value` / `Market Capitalization`)
       
     
     df.output <- df %>%
@@ -56,10 +61,11 @@ library(tidyverse)
              `Ticker`      = ticker,
              `Pre-Calculated P/E Ratio`      = old_PE_Ratio,
              `Manually Caculated P/E Ratio`  = calc_PE,
-             `Forward P/E Ratio`             = calc_PE_Forward)
+             `Forward P/E Ratio`             = calc_PE_Forward,
+             `Book to Market`                = bookToMarket)
     
 # Write Excel File ---------------------------------------------------------
-    write_excel_csv(df.output, path = "01 - Data Pulls/02 - Foward PE Ratios - Cons. Disc..csv")
+    write_excel_csv(df.output, path = "01 - Data Pulls/01 - PE Ratios/02 - Foward PE Ratios - Cons. Disc..csv")
     
     
 # Set Theme ----------------------------------------------------------------
@@ -136,18 +142,7 @@ library(tidyverse)
                y = price.adjusted,
                color = ticker)) +
       geom_line(alpha = 1/2) +
-      theme_get() #+
-      #theme_update(legend.position = "none") +
-      
-    # Graph Color
-      #scale_colour_brewer(type      = "seq", 
-      #                    palette   = "Set1",
-      #                    direction = 1)
-      
-      
-    
-    
-    
+      theme_get() 
     
     
     

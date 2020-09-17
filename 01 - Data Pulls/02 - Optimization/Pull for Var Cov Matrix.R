@@ -70,10 +70,7 @@ library(readxl)
   # Write Return File and Var Cov Matrix -------------------------------------------------------------------------
       
     write.csv(df, file = "01 - Data Pulls/02 - Optimization/Returns_Monthly - Cons. Disc..csv")
-    
     write.csv(VarCovMatrix, file = "01 - Data Pulls/02 - Optimization/Var-Cov Matrix_Monthly - Cons. Disc..csv")
-    
-    
     
     
   #  GRAPH DATA FROM OPTIMIZED PORTFOLIOS ========================================================================
@@ -96,11 +93,11 @@ library(readxl)
       df.opt.Monthly <- as.data.frame(df$df.tickers) %>%
       
       # Change Names of Data and Drop Others
-      select(date        = ref.date,
-             stockName   = ticker,
-             stockReturn = ret.adjusted.prices) %>%
-      drop_na() %>%
-      
+        select(date        = ref.date,
+               stockName   = ticker,
+               stockReturn = ret.adjusted.prices) %>%
+        drop_na() %>%
+        
       # add weights
         left_join(opt.Monthly.Weights,
                   by = c("stockName" = "Stock Name")) %>%
