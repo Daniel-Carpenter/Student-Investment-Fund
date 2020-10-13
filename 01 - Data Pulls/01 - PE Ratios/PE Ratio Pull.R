@@ -1,6 +1,7 @@
 library(BatchGetSymbols)
 library(quantmod)
 library(tidyverse)
+library(skimr)
 
 
 # Inputs --------------------------------------------------------------------
